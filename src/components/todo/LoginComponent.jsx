@@ -23,13 +23,27 @@ class LoginComponent extends Component {
   }
   
   loginClicked() {
-    if (this.state.username === "mustapha" && this.state.password === "dummy") {
+    // if (this.state.username === "mustapha" && this.state.password === "dummy") {
+    //     AuthenticationService.registerSuccessfullLogin(this.state.username,this.state.password);
+    //   this.props.history.push(`/welcome/${this.state.username}`);
+    // } else {
+    //   this.setState({ hasLoginFailed: true });
+    //   this.setState({ showSuccessMessage: false });
+    // }
+
+    AuthenticationService.executeBasicAuthenticationService(this.state.username,this.state.password)
+    .then(
+      () => {
         AuthenticationService.registerSuccessfullLogin(this.state.username,this.state.password);
-      this.props.history.push(`/welcome/${this.state.username}`);
-    } else {
-      this.setState({ hasLoginFailed: true });
-      this.setState({ showSuccessMessage: false });
-    }
+        this.props.history.push(`/welcome/${this.state.username}`);
+      }
+
+    ).catch(
+      () => {
+        this.setState({ hasLoginFailed: true });
+        this.setState({ showSuccessMessage: false });
+      }
+    )
   }
   render() {
     return (
